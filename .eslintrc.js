@@ -4,7 +4,12 @@ module.exports = {
     parser: 'babel-eslint',
     sourceType: 'module'
   },
-  extends: [
-    '@nuxtjs'
-  ]
+  extends: ['@nuxtjs'],
+  rules: {
+    'space-before-function-paren': ['error', {
+      anonymous: 'always',
+      named: 'never',
+      asyncArrow: 'always'
+    }]
+  }
 }
