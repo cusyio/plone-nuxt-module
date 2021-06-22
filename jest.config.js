@@ -1,15 +1,12 @@
 module.exports = {
   testEnvironment: 'node',
   collectCoverage: true,
-  collectCoverageFrom: [
-    'lib/**/*.js',
-    '!lib/plugin.js'
-  ],
+  collectCoverageFrom: ['src/**/*.js'],
   moduleNameMapper: {
-    '^~/(.*)$': '<rootDir>/lib/$1',
+    '^~/(.*)$': '<rootDir>/src/$1',
     '^~~$': '<rootDir>',
     '^@@$': '<rootDir>',
-    '^@/(.*)$': '<rootDir>/lib/$1'
+    '^@/(.*)$': '<rootDir>/src/$1'
   },
   transform: {
     '^.+\\.js$': 'babel-jest'

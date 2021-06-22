@@ -10,16 +10,21 @@
     }
   ],
   "files": [
-    "lib"
+    "src",
+    "templates"
   ],
-  "main": "lib/module.js",
+  "main": "src/module.js",
   "scripts": {
     "dev": "nuxt example",
     "lint": "eslint --ext .js,.vue .",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
     "test": "yarn lint && jest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "defu": "^5.0.0",
+    "hookable": "^4.4.1",
+    "plone-client-js": "^1.0.0-beta2"
+  },
   "devDependencies": {
     "@babel/core": "latest",
     "@babel/preset-env": "latest",
