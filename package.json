@@ -1,6 +1,6 @@
 {
   "name": "plone-nuxt-module",
-  "version": "0.0.0",
+  "version": "1.0.0-dev0",
   "description": "Nuxt integration for Plone CMS",
   "repository": "it-spirit/plone-nuxt-module",
   "license": "MIT",
