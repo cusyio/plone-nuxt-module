@@ -130,10 +130,24 @@ class PloneAPI extends Hookable {
 
   /**
    * Get a list of URLs for the sitemap.
-   * @returns
+   * The result is not batched and might be large!
+   *
+   * @returns An object with a list of sitemap items.
    */
-  getSitemap() {
-    return 'no sitemap yet'
+  async getSitemap() {
+    const searchOptions = {}
+    let results
+    try {
+      results = await this.client.fetchItems('/', searchOptions)
+    } catch { }
+    if (results?.error) {
+      return {
+        error: true
+      }
+    }
+    return {
+      items: results,
+    }
   }
 
   getFormConfig(path) {
