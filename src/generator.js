@@ -1,4 +1,5 @@
 const PloneClient = require('@it-spirit/plone-js')
+const logger = require('./logger')
 
 /**
  * Hook into Nuxt’s generate:before to create all routes from Plone.
@@ -42,8 +43,17 @@ function generate(options) {
           sort_order: 'ascending'
         }
 
-        const urls = await client.fetchItems(lang, queryOptions)
-        ploneRoutes.push(...urls)
+        try {
+          const urls = await client.fetchItems(lang, queryOptions)
+          ploneRoutes.push(...urls)
+        } catch (e) {
+          logger.error(e)
+          throw new Error(
+            'Unable to fetch routes from Plone backend.\n\n' +
+            'Please check your Nuxt configuration and if the Plone backend ' +
+            `at ${options.url} is up and running.`
+          )
+        }
       }
 
       /**
