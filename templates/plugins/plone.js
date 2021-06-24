@@ -1,6 +1,6 @@
 import Hookable from 'hookable'
-import PloneClient from 'plone-client-js'
 import { joinURL } from 'ufo'
+import PloneClient from '@it-spirit/plone-js'
 
 /**
  * The Plone API client.

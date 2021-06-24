@@ -1118,6 +1118,14 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
+"@it-spirit/plone-js@^1.0.0-beta3":
+  version "1.0.0-beta3"
+  resolved "https://registry.yarnpkg.com/@it-spirit/plone-js/-/plone-js-1.0.0-beta3.tgz#eb584cd65d837d954b8e1b724441df4cbbc4053e"
+  integrity sha512-rDMZHSAghaVnseCy3VXeOXuHM3k5SlLTvwtxvgTmYhUPbLIw/w6RZWXZ7HQeUG/USsodS/sNqhfJmV/Y5lAarA==
+  dependencies:
+    axios "^0.21.1"
+    ufo "^0.7.5"
+
 "@jest/console@^27.0.2":
   version "27.0.2"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-27.0.2.tgz#b8eeff8f21ac51d224c851e1729d2630c18631e6"
@@ -8179,14 +8187,6 @@ pkg-up@^2.0.0:
   integrity sha1-yBmscoBZpGHKscOImivjxJoATX8=
   dependencies:
     find-up "^2.1.0"
-
-plone-client-js@^1.0.0-beta2:
-  version "1.0.0-beta2"
-  resolved "https://registry.yarnpkg.com/plone-client-js/-/plone-client-js-1.0.0-beta2.tgz#8dc7316b1646ff111dc145e4f3050075cf9b0f3c"
-  integrity sha512-GryZgoqHNKtr9Pc+wA9FziZ3QPB8+viybCn07C0Y2UN8F/QyqT2p4FzuD1rTa3W4260AHVJ0X5EjpnIAvCeQdQ==
-  dependencies:
-    axios "^0.21.1"
-    ufo "^0.7.5"
 
 pluralize@^8.0.0:
   version "8.0.0"

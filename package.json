@@ -25,9 +25,9 @@
     "test": "yarn lint && jest"
   },
   "dependencies": {
+    "@it-spirit/plone-js": "^1.0.0-beta3",
     "defu": "^5.0.0",
-    "hookable": "^4.4.1",
-    "plone-client-js": "^1.0.0-beta2"
+    "hookable": "^4.4.1"
   },
   "devDependencies": {
     "@babel/core": "latest",

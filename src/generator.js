@@ -1,4 +1,4 @@
-const PloneClient = require('plone-client-js')
+const PloneClient = require('@it-spirit/plone-js')
 
 /**
  * Hook into Nuxt’s generate:before to create all routes from Plone.
