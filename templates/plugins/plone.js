@@ -110,18 +110,19 @@ class PloneAPI extends Hookable {
 
   /**
    * Get a single content item by path.
+   *
    * @param {string} path The relative path to get.
    * @param {object} options Options
    * @returns The content
    */
   async get(path, options) {
-    options = {
+    const searchOptions = {
       expand: 'breadcrumbs,translations,contentinfo',
-      fullobjects: 1
+      ...options
     }
 
     try {
-      return await this.client.query(path, options)
+      return await this.client.query(path, searchOptions)
     } catch {
       return {}
     }
