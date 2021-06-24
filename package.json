@@ -1,8 +1,11 @@
 {
-  "name": "plone-nuxt-module",
+  "name": "@it-spirit/plone-nuxt",
   "version": "1.0.0-dev0",
   "description": "Nuxt integration for Plone CMS",
-  "repository": "it-spirit/plone-nuxt-module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/it-spirit/plone-nuxt-module.git"
+  },
   "license": "MIT",
   "contributors": [
     {
