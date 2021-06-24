@@ -1,0 +1,10 @@
+{
+  "title": "Documentation",
+  "url": "plone-nuxt.it-spir.it",
+  "logo": {
+    "light": "/logo-light.svg",
+    "dark": "/logo-dark.svg"
+  },
+  "github": "it-spirit/plone-nuxt-module",
+  "twitter": "@it_spirit"
+}
