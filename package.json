@@ -19,6 +19,7 @@
   "main": "src/module.js",
   "scripts": {
     "dev": "nuxt example",
+    "docs": "nuxt docs",
     "generate:dev": "nuxt generate example",
     "lint": "eslint --ext .js,.vue .",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
