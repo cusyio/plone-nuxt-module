@@ -1,6 +1,6 @@
 import Hookable from 'hookable'
-import { joinURL } from 'ufo'
 import PloneClient from '@it-spirit/plone-js'
+import { getQuery, joinURL, parseURL } from 'ufo'
 
 /**
  * The Plone API client.
@@ -16,7 +16,32 @@ class PloneAPI extends Hookable {
     if (process.server && ctx.req && url.startsWith('/')) {
       url = joinURL(reqURL(ctx.req), url)
     }
+    this.baseURL = url
     this.client = new PloneClient(url)
+  }
+
+  /**
+   * Extract relative path and query options from a given url.
+   *
+   * @param {string} url The URL for the resource.
+   * @returns An object with a clean pathName and a pathQuery.
+   */
+  extractPathAndQuery(url) {
+    // We only want to work with relative URLs
+    url = url.replace(this.baseURL, '')
+
+    // Extract the URL information.
+    const urlObject = parseURL(url)
+
+    // Get the query params.
+    // parseURL returns the query params as string, but we want an object.
+    let query = getQuery(url)
+
+    // Return pathName and pathQuery
+    return {
+      pathName: urlObject.pathname,
+      pathQuery: query
+    }
   }
 
   /**
