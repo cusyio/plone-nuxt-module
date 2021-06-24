@@ -9,5 +9,8 @@ module.exports = {
   },
   target: 'static',
   modules: [{ handler: require('../src/module') }],
-  buildModules: ['../src/module.js']
+  buildModules: ['../src/module.js'],
+  plone: {
+    url: 'http://localhost:8080/Plone'
+  }
 }

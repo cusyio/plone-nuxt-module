@@ -1,6 +1,7 @@
 const { resolve } = require('path')
 const defu = require('defu')
 const generate = require('./generator')
+const logger = require('./logger')
 
 /**
  * Default module options.
@@ -10,7 +11,7 @@ const defaults = {
   languages: process.env.PLONE_LANGUAGES
     ? process.env.PLONE_LANGUAGES.split(',')
     : [],
-  url: process.env.PLONE_URL || 'http://localhost:8080/Plone'
+  url: process.env?.PLONE_URL
 }
 
 /**
@@ -24,6 +25,14 @@ module.exports = function (moduleOptions) {
    * Read plone property defined in nuxt.config.js and merge with defaults.
    */
   const options = defu(moduleOptions, nuxt.options.plone, defaults)
+
+  /**
+   * We need the Plone backend URL. Without the url, the module is useless.
+   */
+  if (!options.url) {
+    logger.warn('Options `url` is required, disabling module...')
+    return
+  }
 
   /**
    * Update the public runtime config.
