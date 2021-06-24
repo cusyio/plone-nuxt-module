@@ -154,8 +154,19 @@ class PloneAPI extends Hookable {
     return 'no form config yet'
   }
 
-  getNavigation(path = '', depth = 2) {
-    return 'no navigation yet'
+  /**
+   * Get the Plone navigation.
+   *
+   * @param {string} path The relative path for the navigation root.
+   * @param {number} depth How many levels deep should the navigation show?
+   * @returns A list of navigation items.
+   */
+  async getNavigation(path = '', depth = 2) {
+    const searchOptions = {
+      'expand.navigation.depth': depth
+    }
+    const url = joinURL(path, '@navigation')
+    return await this.client.query(url, searchOptions)
   }
 
   getSiteInfo() {
