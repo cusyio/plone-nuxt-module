@@ -1,7 +1,7 @@
 ---
 title: Introduction
 description: 'Access all your Plone content with Nuxt.'
-position: 1
+position: 101
 category: 'Getting started'
 features:
   - Add Plone to your Nuxt app in seconds

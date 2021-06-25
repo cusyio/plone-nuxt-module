@@ -1,7 +1,7 @@
 ---
-title: $plone Object
-position: 3
-category: Guide
+title: The '$plone Object'
+position: 103
+category: 'Getting started'
 ---
 
 This module globally injects a `$plone` object so you can access it anywher using `this.$plone`. For plugins, `asyncData`, `nuxtServerInit` and middlewares, you can access it from `context.$plone`.
