@@ -21,6 +21,7 @@
     "dev": "nuxt example",
     "docs": "nuxt docs",
     "generate:dev": "nuxt generate example",
+    "generate:docs": "nuxt generate docs",
     "lint": "eslint --ext .js,.vue .",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
     "test": "yarn lint && jest"
