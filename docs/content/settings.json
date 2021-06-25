@@ -1,10 +1,11 @@
 {
-  "title": "Documentation",
-  "url": "plone-nuxt.it-spir.it",
+  "title": "Plone Nuxt",
+  "url": "https://plone-nuxt.it-spir.it",
   "logo": {
     "light": "/logo-light.svg",
     "dark": "/logo-dark.svg"
   },
   "github": "it-spirit/plone-nuxt-module",
-  "twitter": "@it_spirit"
+  "twitter": "@it_spirit",
+  "defaultBranch": "main"
 }

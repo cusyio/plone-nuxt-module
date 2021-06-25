@@ -10,7 +10,7 @@ export default theme({
   loading: { color: '#0095D3' },
   pwa: {
     manifest: {
-      name: 'Nuxt Plone'
+      name: 'Plone Nuxt'
     }
   }
 })
