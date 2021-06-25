@@ -2,7 +2,7 @@
 title: Introduction
 description: 'Access all your Plone content with Nuxt.'
 position: 1
-category: ''
+category: 'Getting started'
 features:
   - Add Plone to your Nuxt app in seconds
   - Access Plone JS SDK with $plone
