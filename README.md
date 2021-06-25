@@ -44,6 +44,14 @@ yarn add plone-nuxt-module # or npm install plone-nuxt-module
 
 Copyright (c) Thomas Massmann <thomas.massmann@it-spir.it>
 
+## Sponsors
+
+The development of this NuxtJS module was sponsored by:
+
+[<img src="./it-spirit.png" width="250" />](https://www.it-spir.it)
+[<img src="./cusy.png" width="250" />](https://cusy.io)
+
+
 <!-- Badges -->
 [npm-version-src]: https://img.shields.io/npm/v/plone-nuxt-module/latest.svg
 [npm-version-href]: https://npmjs.com/package/plone-nuxt-module
