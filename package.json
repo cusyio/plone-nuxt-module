@@ -1,6 +1,6 @@
 {
   "name": "@it-spirit/plone-nuxt",
-  "version": "1.0.0-dev0",
+  "version": "1.0.0-dev0.0",
   "description": "Plone CMS integration for Nuxt",
   "repository": {
     "type": "git",
