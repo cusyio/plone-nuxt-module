@@ -1,5 +1,5 @@
 import Hookable from 'hookable'
-import PloneClient from '@it-spirit/plone-js'
+import PloneClient from '@cusy/plone-js'
 import { getQuery, joinURL, parseURL } from 'ufo'
 
 /**

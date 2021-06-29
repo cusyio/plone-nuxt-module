@@ -44,26 +44,19 @@ yarn add plone-nuxt-module # or npm install plone-nuxt-module
 
 Copyright (c) Thomas Massmann <thomas.massmann@it-spir.it>
 
-## Sponsors
-
-The development of this NuxtJS module was sponsored by:
-
-[<img src="./it-spirit.png" width="250" />](https://www.it-spir.it)
-[<img src="./cusy.png" width="250" />](https://cusy.io)
-
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/plone-nuxt-module/latest.svg
-[npm-version-href]: https://npmjs.com/package/plone-nuxt-module
+[npm-version-src]: https://img.shields.io/npm/v/@cusy/plone-nuxt/latest.svg
+[npm-version-href]: https://npmjs.com/package/@cusy/plone-nuxt
 
-[npm-downloads-src]: https://img.shields.io/npm/dt/plone-nuxt-module.svg
-[npm-downloads-href]: https://npmjs.com/package/plone-nuxt-module
+[npm-downloads-src]: https://img.shields.io/npm/dt/@cusy/plone-nuxt.svg
+[npm-downloads-href]: https://npmjs.com/package/@cusy/plone-nuxt
 
-[github-actions-ci-src]: https://github.com/it-spirit/plone-nuxt-module/workflows/ci/badge.svg
-[github-actions-ci-href]: https://github.com/it-spirit/plone-nuxt-module/actions?query=workflow%3Aci
+[github-actions-ci-src]: https://github.com/cusyio/plone-nuxt-module/workflows/ci/badge.svg
+[github-actions-ci-href]: https://github.com/cusyio/plone-nuxt-module/actions?query=workflow%3Aci
 
-[codecov-src]: https://img.shields.io/codecov/c/github/it-spirit/plone-nuxt-module.svg
-[codecov-href]: https://codecov.io/gh/it-spirit/plone-nuxt-module
+[codecov-src]: https://img.shields.io/codecov/c/github/cusyio/plone-nuxt-module.svg
+[codecov-href]: https://codecov.io/gh/cusyio/plone-nuxt-module
 
 [license-src]: https://img.shields.io/npm/l/plone-nuxt-module.svg
 [license-href]: https://npmjs.com/package/plone-nuxt-module

@@ -1,4 +1,4 @@
-const PloneClient = require('@it-spirit/plone-js')
+const PloneClient = require('@cusy/plone-js')
 const logger = require('./logger')
 
 /**

@@ -17,10 +17,3 @@ features:
 ## Features
 
 <list :items="features"></list>
-
-## Sponsors
-
-The development of this NuxtJS module was sponsored by:
-
-[<img src="/it-spirit.png" width="250" />](https://www.it-spir.it)
-[<img src="/cusy.png" width="250" />](https://cusy.io)

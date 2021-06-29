@@ -9,31 +9,31 @@ Check the [Nuxt.js documentation](https://nuxtjs.org/guides/configuration-glossa
 
 ## Installation
 
-Add `@it-spirit/plone-nuxt` dependency to your project:
+Add `@cusy/plone-nuxt` dependency to your project:
 
 <code-group>
   <code-block label="Yarn" active>
 
   ```bash
-  yarn add @it-spirit/plone-nuxt
+  yarn add @cusy/plone-nuxt
   ```
 
   </code-block>
   <code-block label="NPM">
 
   ```bash
-  npm install @it-spirit/plone-nuxt
+  npm install @cusy/plone-nuxt
   ```
 
   </code-block>
 </code-group>
 
-Then, add `@it-spirit/plone-nuxt` to the `modules` section of `nuxt.config.js`:
+Then, add `@cusy/plone-nuxt` to the `modules` section of `nuxt.config.js`:
 
 ```js[nuxt.config.js]
 {
   modules: [
-    '@it-spirit/plone-nuxt'
+    '@cusy/plone-nuxt'
   ],
   plone: {
     // Options

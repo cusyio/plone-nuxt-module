@@ -1,10 +1,10 @@
 {
-  "name": "@it-spirit/plone-nuxt",
+  "name": "@cusy/plone-nuxt",
   "version": "1.0.0-dev0.0",
   "description": "Plone CMS integration for Nuxt",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/it-spirit/plone-nuxt-module.git"
+    "url": "git+https://github.com/cusyio/plone-nuxt-module.git"
   },
   "license": "MIT",
   "contributors": [
@@ -27,7 +27,7 @@
     "test": "yarn lint && jest"
   },
   "dependencies": {
-    "@it-spirit/plone-js": "^1.0.0-beta3",
+    "@cusy/plone-js": "^1.0.0-beta4",
     "consola": "^2.15.3",
     "defu": "^5.0.0",
     "hookable": "^4.4.1"

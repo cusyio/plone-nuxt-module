@@ -1,4 +1,4 @@
-# @it-spirit/plone-nuxt-docs
+# @cusy/plone-nuxt-docs
 
 ## Setup
 
