@@ -9,8 +9,8 @@ features:
   - Compact configuration
 ---
 
-<img src="/preview.png" class="light-img" width="1280" height="640" alt=""/>
-<img src="/preview-dark.png" class="dark-img" width="1280" height="640" alt=""/>
+<img src="/plone-nuxt-module/preview.png" class="light-img" width="1280" height="640" alt=""/>
+<img src="/plone-nuxt-module/preview-dark.png" class="dark-img" width="1280" height="640" alt=""/>
 
 [Plone CMS](https://plone.org) integration for [NuxtJS](https://nuxtjs.org).
 

@@ -2,8 +2,8 @@
   "title": "Plone Nuxt",
   "url": "https://cusyio.github.io/plone-nuxt-module/",
   "logo": {
-    "light": "/logo-light.svg",
-    "dark": "/logo-dark.svg"
+    "light": "/plone-nuxt-module/logo-light.svg",
+    "dark": "/plone-nuxt-module/logo-dark.svg"
   },
   "github": "cusyio/plone-nuxt-module",
   "twitter": "@it_spirit",
