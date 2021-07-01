@@ -4,13 +4,13 @@ export default theme({
   docs: {
     primaryColor: '#0095D3'
   },
-  env: {
-    GITHUB_TOKEN: process.env.GITHUB_TOKEN
-  },
   loading: { color: '#0095D3' },
   pwa: {
     manifest: {
       name: 'Plone Nuxt'
     }
+  },
+  router: {
+    base: '/plone-nuxt-module/'
   }
 })
