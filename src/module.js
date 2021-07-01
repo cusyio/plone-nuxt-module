@@ -7,7 +7,7 @@ const logger = require('./logger')
  * Default module options.
  */
 const defaults = {
-  disableGenerator: undefined,
+  disableGenerator: false,
   languages: process.env.PLONE_LANGUAGES
     ? process.env.PLONE_LANGUAGES.split(',')
     : [],
