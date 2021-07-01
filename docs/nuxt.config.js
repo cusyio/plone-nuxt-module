@@ -12,5 +12,6 @@ export default theme({
   },
   router: {
     base: '/plone-nuxt-module/'
-  }
+  },
+  target: 'static'
 })
