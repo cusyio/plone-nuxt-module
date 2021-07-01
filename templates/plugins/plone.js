@@ -208,6 +208,10 @@ class PloneAPI extends Hookable {
   async getSiteInfo() {
     return await this.client.query('@siteinfo')
   }
+
+  getLocalURL(url) {
+    return url.replace(this.baseURL, '') || '/';
+  }
 }
 
 export default async function (ctx, inject) {
