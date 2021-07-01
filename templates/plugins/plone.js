@@ -162,11 +162,47 @@ class PloneAPI extends Hookable {
    * @returns A list of navigation items.
    */
   async getNavigation(path = '', depth = 2) {
+    const errorResult = {
+      error: true,
+      items: [],
+    }
     const searchOptions = {
       'expand.navigation.depth': depth
     }
     const url = joinURL(path, '@navigation')
-    return await this.client.query(url, searchOptions)
+    let results
+    try {
+      results = await this.client.query(url, searchOptions)
+      results = results?.items
+    } catch (e) {
+      // This is a local plone plugin error.
+      return {
+        ...errorResult,
+        _error: e
+      }
+    }
+    if (!results) {
+      // An empty result was returned.
+      return {
+        ...errorResult,
+        _error: {
+          message: 'Result was empty.'
+        }
+      }
+    }
+    if (results?.error) {
+      // This is an api/connection error.
+      return {
+        ...errorResult,
+        _error: results.error
+      }
+    }
+
+    // This is the valid response from the Plone REST-API.
+    return {
+      error: false,
+      items: results
+    }
   }
 
   getSiteInfo() {
