@@ -205,8 +205,8 @@ class PloneAPI extends Hookable {
     }
   }
 
-  getSiteInfo() {
-    return 'no siteinfo yet'
+  async getSiteInfo() {
+    return await this.client.query('@siteinfo')
   }
 }
 
