@@ -51,7 +51,7 @@ class PloneAPI extends Hookable {
    * @param {object} searchOptions Search options.
    * @returns An object with a list of search result items and optional batch information.
    */
-  async search(path = '', searchOptions) {
+  async search(path = '', searchOptions = {}) {
     /**
      * We provide a sanitized result for error responses.
      */
@@ -112,10 +112,10 @@ class PloneAPI extends Hookable {
    * Get a single content item by path.
    *
    * @param {string} path The relative path to get.
-   * @param {object} options Options
+   * @param {object} options API options
    * @returns The content
    */
-  async get(path, options) {
+  async get(path, options = {}) {
     const searchOptions = {
       expand: 'breadcrumbs,translations,contentinfo',
       ...options
