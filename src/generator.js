@@ -10,6 +10,8 @@ function generate(options) {
     const client = new PloneClient(options.url)
     const maybeF = this.options.generate.routes || []
     let languages = options?.languages || ['/']
+    const missingLanguagesAllowed = options?.missingLanguagesAllowed || []
+    const missingLanguagesError = options?.missingLanguagesError
     if (!languages.length) {
       languages = ['/']
     }
@@ -47,12 +49,15 @@ function generate(options) {
           const urls = await client.fetchItems(lang, queryOptions)
           ploneRoutes.push(...urls)
         } catch (e) {
-          logger.error(e)
-          throw new Error(
-            'Unable to fetch routes from Plone backend.\n\n' +
-            'Please check your Nuxt configuration and if the Plone backend ' +
-            `at ${options.url} is up and running.`
-          )
+          if (!missingLanguagesAllowed.includes(lang) && missingLanguagesError) {
+            logger.error(e)
+            throw new Error(
+              'Unable to fetch routes from Plone backend.\n\n' +
+              `Content for the language “${lang}” could not be fetched.\n\n` +
+              'Please check your Nuxt configuration and if the Plone backend ' +
+              `at “${options.url}” is up and running.`
+            )
+          }
         }
       }
 
