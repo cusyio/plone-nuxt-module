@@ -5,7 +5,7 @@ position: 101
 category: 'Getting started'
 features:
   - Add Plone to your Nuxt app in seconds
-  - Access Plone JS SDK with `$plone`
+  - Access Plone JS SDK with '$plone'
   - Compact configuration
 ---
 
