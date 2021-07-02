@@ -1,5 +1,5 @@
 ---
-title: The '$plone Object'
+title: The '$plone' Object
 position: 104
 category: 'Getting started'
 ---
