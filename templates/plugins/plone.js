@@ -1,6 +1,6 @@
 import Hookable from 'hookable'
 import PloneClient from '@cusy/plone-js'
-import { getQuery, joinURL, parseURL } from 'ufo'
+import { getQuery, joinURL, parseURL, withLeadingSlash, withoutTrailingSlash } from 'ufo'
 
 /**
  * The Plone API client.
@@ -205,8 +205,26 @@ class PloneAPI extends Hookable {
     return await this.client.query('@siteinfo')
   }
 
+  /**
+   * Get the local (relative) part from the URL.
+   *
+   * @param {string} url The full URL
+   * @returns The relative path of the URL from the root.
+   */
+  getLocalPath(url) {
+    const path = url.replace(this.baseURL, '') || '/'
+    return withLeadingSlash(path);
+  }
+
+  /**
+   * Get the local URL from the full URL.
+   *
+   * @param {string} url The full URL
+   * @returns The relative URL.
+   * @deprecated Use `getLocalPath` instead.
+   */
   getLocalURL(url) {
-    return url.replace(this.baseURL, '') || '/';
+    return this.getLocalPath(url)
   }
 }
 
