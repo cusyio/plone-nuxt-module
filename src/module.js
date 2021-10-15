@@ -10,7 +10,7 @@ const defaults = {
   disableGenerator: false,
   languages: process.env.PLONE_LANGUAGES
     ? process.env.PLONE_LANGUAGES.split(',')
-    : [],
+    : ['/'],
   missingLanguagesAllowed: process.env.PLONE_MISSING_LANGUAGES_ALLOWED
     ? process.env.PLONE_MISSING_LANGUAGES_ALLOWED.split(',')
     : [],
