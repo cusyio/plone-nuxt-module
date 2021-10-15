@@ -121,11 +121,7 @@ class PloneAPI extends Hookable {
       ...options
     }
 
-    try {
-      return await this.client.query(path, searchOptions)
-    } catch {
-      return {}
-    }
+    return await this.client.query(path, searchOptions)
   }
 
   /**
