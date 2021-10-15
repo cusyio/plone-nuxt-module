@@ -3,15 +3,52 @@ const logger = require('./logger')
 
 /**
  * Hook into Nuxt’s generate:before to create all routes from Plone.
- * @param {object} options Module configuration options.
+ * @param {object} moduleOptions Module configuration options.
  */
-function generate(options) {
+function generate(moduleOptions) {
   this.nuxt.hook('generate:before', () => {
-    const client = new PloneClient(options.url)
-    const maybeF = this.options.generate.routes || []
-    let languages = options?.languages || ['/']
-    const missingLanguagesAllowed = options?.missingLanguagesAllowed || []
-    const missingLanguagesError = options?.missingLanguagesError
+    logger.info(`Getting all content from your Plone backend at ${moduleOptions.url}`)
+
+    /*
+     * Initialize a new Plone JS client with the provided Plone backend URL.
+     */
+    const ploneClient = new PloneClient(moduleOptions.url, {
+      enableCaching: true,
+      enableRetry: true
+    })
+
+    /**
+     * There might be custom routes defined in nuxt.config.js.
+     *
+     * Those routes can either be an Array or a function.
+     * We save the defined routes, if any, and merge them later with our Plone
+     * routes.
+     *
+     * Note that the custom routes will overwrite any Plone routes, if they have the
+     * same path. The Plone routes will provide a payload with the actual data for a
+     * particular route. So when a custom route overwrites a Plone route, the payload
+     * data is gone unless the custom route provides one.
+     */
+    const nuxtCustomRoutesConfig = this.options.generate.routes || []
+
+    /**
+     * A list of languages which are allowed to be missing on the Plone site.
+     */
+    const missingLanguagesAllowed = moduleOptions?.missingLanguagesAllowed || []
+
+    /**
+     * Throw an error when a configured language is not available?
+     */
+    const missingLanguagesError = moduleOptions?.missingLanguagesError
+
+    /**
+     * The languages your Nuxt.js site should support.
+     */
+    let languages = moduleOptions?.languages || ['/']
+
+    /**
+     * If there is no language available, use the root folder.
+     */
     if (!languages.length) {
       languages = ['/']
     }
@@ -22,32 +59,60 @@ function generate(options) {
      * We don’t catch any errors here to prevent you from building an empty site
      * in case the Plone backend is currently down or unreachable.
      *
-     * TODO: Can we add some custom error logging?
+     * This will overwrite any possible custom routes definition from `nuxt.config.js`.
+     * But we have a copy of the data in `nuxtCustomRoutesConfig` and will merge
+     * this in at the end.
      */
     this.options.generate.routes = async () => {
+      /**
+       * The list of collected routes from the Plone backend.
+       */
       const ploneRoutes = []
-      const userRoutes =
-        typeof maybeF === 'function' ? await maybeF(options) : maybeF
+
+      /**
+       * A list of custom routes defined in the nuxt configuration.
+       *
+       * If it is a function, call it. Otherwise use the assigned value.
+       */
+      const nuxtCustomRoutes = typeof nuxtCustomRoutesConfig === 'function'
+        ? await nuxtCustomRoutesConfig(moduleOptions)
+        : nuxtCustomRoutesConfig
 
       /**
        * Iterate over all configured languages and get the content items.
        * If a language is not available an error will be thrown and the
        * current build process will be stopped.
        */
-      for (const langIndex in languages) {
-        const lang = languages[langIndex]
+      for (const lang of languages) {
+        logger.info(`Processing language '${lang}'`)
 
         /**
          * We sort the results alphabetically by path.
+         *
+         * We also request information for breadcrumbs, any translations and the
+         * extended content information. This way we have all the data in one
+         * single API request.
+         *
+         * Requesting full objects will make the initial API request slower, but
+         * saves us a lot of API requests when generating the pages later, as we
+         * can provide the full object as payload.
          */
         const queryOptions = {
           sort_on: 'path',
-          sort_order: 'ascending'
+          sort_order: 'ascending',
+          expand: 'breadcrumbs,translations,contentinfo',
+          fullobjects: '1'
         }
 
+        /**
+         * First, get all the URLs including the payload for the given language.
+         *
+         * If an error occures and the language is not allowed to fail, we log it
+         * to the console and raise the error. This prevents building an empty frontend
+         * when the backend might be unreachable or is mis-configured.
+         */
         try {
-          const urls = await client.fetchItems(lang, queryOptions)
-          ploneRoutes.push(...urls)
+          ploneRoutes.push(...await ploneClient.fetchItems(lang, queryOptions, {}))
         } catch (e) {
           if (!missingLanguagesAllowed.includes(lang) && missingLanguagesError) {
             logger.error(e)
@@ -55,7 +120,7 @@ function generate(options) {
               'Unable to fetch routes from Plone backend.\n\n' +
               `Content for the language “${lang}” could not be fetched.\n\n` +
               'Please check your Nuxt configuration and if the Plone backend ' +
-              `at “${options.url}” is up and running.`
+              `at “${moduleOptions.url}” is up and running.`
             )
           }
         }
@@ -63,28 +128,39 @@ function generate(options) {
 
       /**
        * Transform the returned items for Nuxt.
-       * y passing the payload the pages can be generated without calling the
+       *
+       * By passing the payload the pages can be generated without calling the
        * Plone REST-API again.
+       *
+       * We also filter any empty items.
        */
       const ploneRoutesNuxt = ploneRoutes.map((item) => {
         return {
           route: item['@id'],
           payload: item
         }
-      })
+      }).filter(item => item)
 
       /**
-       * Merge in the custom user routes.
+       * Merge in the custom routes and remove possible duplicates.
+       *
+       * We also filter any empty items.
        */
-      const generated = [...new Set(ploneRoutesNuxt.concat(userRoutes))].filter(
-        (item) => {
-          return item
-        }
+      if (nuxtCustomRoutes.length) {
+        logger.info(
+          `Add ${nuxtCustomRoutes.length} custom routes from your generate.routes config.`
+        )
+      }
+      const generated = [...new Set(ploneRoutesNuxt.concat(nuxtCustomRoutes))].filter(
+        item => item
       )
 
+      logger.info(`Collected ${generated.length} routes from your Plone backend`)
+      logger.info('Plone routes done. Back to you, Nuxt!')
+
       /**
-       * Return the generated routes.
-       */
+     * Return the generated routes.
+     */
       return generated
     }
   })
