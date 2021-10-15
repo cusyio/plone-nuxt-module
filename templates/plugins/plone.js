@@ -16,8 +16,11 @@ class PloneAPI extends Hookable {
     if (process.server && ctx.req && url.startsWith('/')) {
       url = joinURL(reqURL(ctx.req), url)
     }
-    this.baseURL = url
-    this.client = new PloneClient(url)
+    this.baseURL = withoutTrailingSlash(url)
+    this.client = new PloneClient(url, {
+      enableCaching: process.server,
+      enableRetry: true,
+    })
   }
 
   /**
