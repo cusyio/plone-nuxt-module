@@ -194,10 +194,20 @@ class PloneAPI extends Hookable {
       }
     }
 
+    /**
+     * Add a path property with the relative path from the root.
+     */
+    const itemsWithLocalPath = results.map(result => (
+      {
+        ...result,
+        path: this.getLocalPath(result['@id']),
+      }
+    ))
+
     // This is the valid response from the Plone REST-API.
     return {
       error: false,
-      items: results
+      items: itemsWithLocalPath
     }
   }
 
