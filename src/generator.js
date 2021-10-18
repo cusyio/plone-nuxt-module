@@ -32,6 +32,15 @@ function generate(moduleOptions) {
     const nuxtCustomRoutesConfig = this.options.generate.routes || []
 
     /**
+     * There also might be custom sitemap routes defined in nuxt.config.js.
+     *
+     * Those routes can either be an Array or a function.
+     * We save the defined routes, if any, and merge them later with our Plone
+     * routes if `updateSitemap` is set to `true`.
+     */
+    const nuxtCustomSitemapRoutesConfig = this.options.sitemap.routes || []
+
+    /**
      * A list of languages which are allowed to be missing on the Plone site.
      */
     const missingLanguagesAllowed = moduleOptions?.missingLanguagesAllowed || []
@@ -40,6 +49,11 @@ function generate(moduleOptions) {
      * Throw an error when a configured language is not available?
      */
     const missingLanguagesError = moduleOptions?.missingLanguagesError
+
+    /**
+     * Should we update the sitemap with our custom Plone routes?
+     */
+    const updateSitemap = moduleOptions?.updateSitemap
 
     /**
      * The languages your Nuxt.js site should support.
@@ -77,6 +91,15 @@ function generate(moduleOptions) {
       const nuxtCustomRoutes = typeof nuxtCustomRoutesConfig === 'function'
         ? await nuxtCustomRoutesConfig(moduleOptions)
         : nuxtCustomRoutesConfig
+
+      /**
+       * A list of custom sitemap routes defined in the nuxt configuration.
+       *
+       * If it is a function, call it. Otherwise use the assigned value.
+       */
+      const nuxtCustomSitemapRoutes = typeof nuxtCustomSitemapRoutesConfig === 'function'
+        ? await nuxtCustomSitemapRoutesConfig(moduleOptions)
+        : nuxtCustomSitemapRoutesConfig
 
       /**
        * Iterate over all configured languages and get the content items.
@@ -154,6 +177,16 @@ function generate(moduleOptions) {
       const generated = [...new Set(ploneRoutesNuxt.concat(nuxtCustomRoutes))].filter(
         item => item
       )
+
+      if (updateSitemap) {
+        const sitemapRoutes = generated.map((item) => {
+          return {
+            url: item.route,
+            ...item?.sitemap || {}
+          }
+        })
+        this.options.sitemap.routes = [...sitemapRoutes, ...nuxtCustomSitemapRoutes]
+      }
 
       logger.info(`Collected ${generated.length} routes from your Plone backend`)
       logger.info('Plone routes done. Back to you, Nuxt!')
