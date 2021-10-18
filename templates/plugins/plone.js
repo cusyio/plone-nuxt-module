@@ -1,6 +1,7 @@
 import Hookable from 'hookable'
 import PloneClient from '@cusy/plone-js'
 import { getQuery, joinURL, parseURL, withLeadingSlash, withoutTrailingSlash } from 'ufo'
+const DOMParser = require('universal-dom-parser')
 
 /**
  * The Plone API client.
@@ -239,6 +240,81 @@ class PloneAPI extends Hookable {
   getLocalURL(url) {
     return this.getLocalPath(url)
   }
+
+  localizeImages(ctx, content) {
+    /**
+     * We need some content to work with.
+     */
+    if (!content) {
+      return
+    }
+
+    /**
+     * Stop if `nuxtImage` is disabled or @nuxt/image is not available.
+     */
+    if (!this.$config.nuxtImage || !ctx.$img) {
+      return
+    }
+
+    // TODO: Check for all available fields containing images
+    // For now we check the text field
+    if (content?.text?.data) {
+      let contentChanged = false
+      const parser = new DOMParser()
+      const doc = parser.parseFromString(
+        `<!DOCTYPE html><html><body id="body">${content.text.data}</body></html>`,
+        'text/html'
+      )
+      const images = doc.getElementsByTagName('img')
+      if (images.length > 0) {
+        for (let index = 0; index < images.length; index++) {
+          const img = images.item(index)
+          let imgSrc = img.src
+
+          // Check if image source is not relative
+          // (does not contain '../../')
+          if (imgSrc.indexOf('../') !== -1) {
+            // Reqrite img src to absolute URL
+            imgSrc = absoluteURL(content['@id'], imgSrc)
+          }
+
+          // Check again for relativa path segments
+          if (imgSrc.indexOf('../') === -1) {
+            img.src = ctx.$img(imgSrc)
+            if (img.src !== imgSrc) {
+              contentChanged = true
+            }
+          }
+        }
+
+        /**
+         * Data has changed, so we have to update the content.
+         */
+        if (contentChanged) {
+          const body = doc.getElementById('body')
+          content.text.data = body.innerHTML
+
+          return content
+        }
+      }
+    }
+  }
+}
+
+function absoluteURL(base, relative) {
+  var stack = base.split("/"),
+    parts = relative.split("/");
+  stack.pop(); // remove current file name (or empty string)
+  // (omit if "base" is the current folder without trailing slash)
+  for (var i = 0; i < parts.length; i++) {
+    if (parts[i] == ".")
+      continue;
+    if (parts[i] == "..")
+      stack.pop();
+    else
+      stack.push(parts[i]);
+  }
+  return stack.join("/");
 }
 
 export default async function (ctx, inject) {

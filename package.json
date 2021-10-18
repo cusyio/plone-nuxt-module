@@ -30,13 +30,15 @@
     "@cusy/plone-js": "^1.0.0-beta4",
     "consola": "^2.15.3",
     "defu": "^5.0.0",
-    "hookable": "^4.4.1"
+    "hookable": "^4.4.1",
+    "universal-dom-parser": "^0.0.3"
   },
   "devDependencies": {
     "@babel/core": "latest",
     "@babel/preset-env": "latest",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
+    "@nuxt/utils": "^2.15.7",
     "@nuxtjs/eslint-config": "latest",
     "@nuxtjs/module-test-utils": "latest",
     "babel-eslint": "latest",

@@ -15,6 +15,7 @@ const defaults = {
     ? process.env.PLONE_MISSING_LANGUAGES_ALLOWED.split(',')
     : [],
   missingLanguagesError: true,
+  nuxtImage: undefined,
   updateSitemap: false,
   url: process.env?.PLONE_URL
 }
@@ -47,6 +48,7 @@ module.exports = function (moduleOptions) {
     nuxt.options.publicRuntimeConfig.plone || {}
   nuxt.options.publicRuntimeConfig.plone.url = options.url
   nuxt.options.publicRuntimeConfig.plone.languages = options.languages
+  nuxt.options.publicRuntimeConfig.plone.nuxtImage = options.nuxtImage
   nuxt.options.publicRuntimeConfig.plone.updateSitemap = options.updateSitemap
 
   /**
