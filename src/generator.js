@@ -157,12 +157,56 @@ function generate(moduleOptions) {
        *
        * We also filter any empty items.
        */
-      const ploneRoutesNuxt = ploneRoutes.map((item) => {
+      const ploneRoutesNuxt = await Promise.all(ploneRoutes.map(async (item) => {
+        let changefreq
+        let payload = item
+
+        /**
+         * Items with a query param are possible collections with dynamic items.
+         *
+         * Those items are not available unless the `include_items` option is activated
+         * in the search, which is not due to performance implications.
+         *
+         * So we query the content item and use the result as the payload which then
+         * includes the information for the query result items.
+         *
+         * Since the items can change more frequently, we change the sitemap change
+         * frequency for those items to `daily`.
+         */
+        if (item.query) {
+          payload = await ploneClient.fetchCollection(
+            item['@id'],
+            {
+              metadata_fields: ['_all']
+            }
+          )
+          changefreq = 'daily'
+        }
+
+        /**
+         * Same applies to default pages which contain a query param.
+         */
+        if (item?.default_page && item.default_page.query) {
+          const defaultPage = await ploneClient.fetchCollection(
+            item.default_page['@id'],
+            {
+              metadata_fields: ['_all']
+            }
+          )
+          changefreq = 'daily'
+          payload.default_page = defaultPage
+        }
+
         return {
           route: item['@id'],
-          payload: item
+          payload,
+          sitemap: {
+            lastmod: item.modified,
+            ...(changefreq && { changefreq })
+          }
         }
-      }).filter(item => item)
+      }))
+      ploneRoutesNuxt.filter(item => item)
 
       /**
        * Merge in the custom routes and remove possible duplicates.
