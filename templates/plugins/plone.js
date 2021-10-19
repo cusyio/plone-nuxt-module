@@ -80,7 +80,7 @@ class PloneAPI extends Hookable {
    *
    * @param {string} path The relative path to get.
    * @param {object} options API options
-   * @returns The content
+   * @returns {object} The content
    */
   async get(path, options = {}) {
     const searchOptions = {
@@ -93,6 +93,7 @@ class PloneAPI extends Hookable {
 
   /**
    * Get a list of URLs for the sitemap.
+   *
    * The result is not batched and might be large!
    *
    * @returns An object with a list of sitemap items.
@@ -122,7 +123,7 @@ class PloneAPI extends Hookable {
    *
    * @param {string} path The relative path for the navigation root.
    * @param {number} depth How many levels deep should the navigation show?
-   * @returns A list of navigation items.
+   * @returns {object} An object with a list of navigation items.
    */
   async getNavigation(path = '', depth = 2) {
     const errorResult = {
@@ -178,6 +179,14 @@ class PloneAPI extends Hookable {
     }
   }
 
+  /**
+   * Get the site information from the Plone site.
+   *
+   * Requires https://github.com/cusyio/cusy.restapi.info
+   * to be installed in your Plone site.
+   *
+   * @returns {object} The Plone site information.
+   */
   async getSiteInfo() {
     return await this.client.query('@siteinfo')
   }
@@ -186,7 +195,7 @@ class PloneAPI extends Hookable {
    * Get the local (relative) part from the URL.
    *
    * @param {string} url The full URL
-   * @returns The relative path of the URL from the root.
+   * @returns {string} The relative path of the URL from the root.
    */
   getLocalPath(url) {
     const path = url.replace(this.baseURL, '') || '/'
