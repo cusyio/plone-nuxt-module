@@ -57,16 +57,6 @@ class PloneAPI extends Hookable {
    */
   async search(path = '', searchOptions = {}) {
     /**
-     * We provide a sanitized result for error responses.
-     */
-    const errorResult = {
-      batching: false,
-      error: true,
-      items: [],
-      items_total: 0,
-    }
-
-    /**
      * When passing the batching URL, we need to extract the relative path
      * and the query params.
      */
@@ -81,35 +71,8 @@ class PloneAPI extends Hookable {
       ...pathQuery,
       ...searchOptions
     }
-    let results
-    try {
-      results = await this.client.search(pathName, searchQuery)
-    } catch (e) {
-      // This is a local plone plugin error.
-      return {
-        ...errorResult,
-        _error: e
-      }
-    }
-    if (!results) {
-      // An empty result was returned.
-      return {
-        ...errorResult,
-        _error: {
-          message: 'Result was empty.'
-        }
-      }
-    }
-    if (results?.error) {
-      // This is an api/connection error.
-      return {
-        ...errorResult,
-        _error: results.error
-      }
-    }
-
     // This is the valid response from the Plone REST-API.
-    return results
+    return await this.client.search(pathName, searchQuery)
   }
 
   /**
