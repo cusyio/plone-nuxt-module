@@ -27,7 +27,7 @@
     "test": "yarn lint && jest"
   },
   "dependencies": {
-    "@cusy/plone-js": "^1.0.0-beta4",
+    "@cusy/plone-js": "^1.0.0",
     "consola": "^2.15.3",
     "defu": "^5.0.0",
     "hookable": "^4.4.1",
