@@ -15,7 +15,7 @@ const defaults = {
     ? process.env.PLONE_MISSING_LANGUAGES_ALLOWED.split(',')
     : [],
   missingLanguagesError: true,
-  nuxtImage: undefined,
+  nuxtImage: false,
   updateSitemap: false,
   url: process.env?.PLONE_URL
 }
