@@ -173,7 +173,15 @@ function generate(moduleOptions) {
          * Since the items can change more frequently, we change the sitemap change
          * frequency for those items to `daily`.
          */
-        if (item.query) {
+        if (item.is_folderish) {
+          payload = await ploneClient.fetchCollection(
+            item['@id'],
+            {
+              include_items: 1,
+              metadata_fields: ['_all']
+            }
+          )
+        } else if (item.query) {
           payload = await ploneClient.fetchCollection(
             item['@id'],
             {
