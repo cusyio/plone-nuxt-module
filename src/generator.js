@@ -249,6 +249,49 @@ function generate(moduleOptions) {
       return generated
     }
   })
+
+  this.nuxt.hook('generate:done', (generator, errors) => {
+    /**
+     * How many routes have been generated in total?
+     */
+    logger.success(`Generated a total of ${generator.generatedRoutes.size} routes.`)
+
+    const crawledRoutes = this.crawledRoutes || new Map()
+    /**
+     * Log errors so we can further investigate from the logs.
+     */
+    for (const error of errors) {
+      const routeOrigins = crawledRoutes.get(error.route)
+      logger.error(`${error.error.statusCode} (${error.type}): ${error.route}`)
+      if (routeOrigins) {
+        logger.info(`${error.route} appeared in the following origins:`, routeOrigins)
+      }
+    }
+  })
+
+  /**
+   * Store additional information about a new route added by the crawler.
+   *
+   * This needs a patch of Nuxt’s `generateRoute` method.
+   * When the route is found, a new hook needs to be called:
+   *
+   * ```
+   * if (foundRoute.startsWith('/') && !foundRoute.startsWith('//') && !path__default['default'].extname(foundRoute) && this.shouldGenerateRoute(foundRoute) && !this.generatedRoutes.has(foundRoute)) {
+   *   this.generatedRoutes.add(foundRoute);
+   *   this.routes.push({ route: foundRoute });
+   *   // Add this line below:
+   *   this.nuxt.callHook('generate:crawlerRouteAdded', this, { route: foundRoute, origin: route })
+   * }
+   * ```
+   */
+  this.nuxt.hook('generate:crawlerRouteAdded', (generator, { route, origin }) => {
+    if (!this.crawledRoutes) {
+      this.crawledRoutes = new Map()
+    }
+    const routeOrigins = this.crawledRoutes.get(route) || []
+    routeOrigins.push(origin)
+    this.crawledRoutes.set(route, routeOrigins)
+  })
 }
 
 module.exports = generate
