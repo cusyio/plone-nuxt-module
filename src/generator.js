@@ -240,8 +240,8 @@ function generate(moduleOptions) {
         this.options.sitemap.routes = [...sitemapRoutes, ...nuxtCustomSitemapRoutes]
       }
 
-      logger.info(`Collected ${generated.length} routes from your Plone backend`)
-      logger.info('Plone routes done. Back to you, Nuxt!')
+      logger.success(`Collected ${generated.length} routes from your Plone backend`)
+      logger.success('Plone routes done. Back to you, Nuxt!')
 
       /**
      * Return the generated routes.
