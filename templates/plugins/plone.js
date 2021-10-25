@@ -22,6 +22,9 @@ class PloneAPI extends Hookable {
       enableCaching: process.server,
       enableRetry: true,
     })
+    this.layouts =
+      JSON.parse(`<%= JSON.stringify(options.layouts) %>`);
+    this.layoutFallback = '<%= options.layoutFallback %>'
   }
 
   /**
