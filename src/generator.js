@@ -29,7 +29,7 @@ function generate(moduleOptions) {
      * particular route. So when a custom route overwrites a Plone route, the payload
      * data is gone unless the custom route provides one.
      */
-    const nuxtCustomRoutesConfig = this.options.generate.routes || []
+    const nuxtCustomRoutesConfig = this.options.generate?.routes || []
 
     /**
      * There also might be custom sitemap routes defined in nuxt.config.js.
@@ -38,7 +38,7 @@ function generate(moduleOptions) {
      * We save the defined routes, if any, and merge them later with our Plone
      * routes if `updateSitemap` is set to `true`.
      */
-    const nuxtCustomSitemapRoutesConfig = this.options.sitemap.routes || []
+    const nuxtCustomSitemapRoutesConfig = this.options.sitemap?.routes || []
 
     /**
      * A list of languages which are allowed to be missing on the Plone site.
