@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/cusyio/plone-nuxt-module/compare/v1.0.0...v1.0.1) (2021-11-02)
+
+
+### Bug Fixes
+
+* **module:** :bug: don’t fail if sitemap or generate routes are missing ([ad942f5](https://github.com/cusyio/plone-nuxt-module/commit/ad942f5930319598d644661b40e1c8948a1c6ae0))
+
 ## [1.0.0](https://github.com/cusyio/plone-nuxt-module/compare/v1.0.0-dev0.0...v1.0.0) (2021-10-26)
 
 ### Features
