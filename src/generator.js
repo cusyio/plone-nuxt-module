@@ -1,3 +1,4 @@
+import pkg from '../package.json'
 const PloneClient = require('@cusy/plone-js')
 const logger = require('./logger')
 
@@ -14,7 +15,10 @@ function generate(moduleOptions) {
      */
     const ploneClient = new PloneClient(moduleOptions.url, {
       enableCaching: true,
-      enableRetry: true
+      enableRetry: true,
+      headers: {
+        'User-Agent': `${pkg.name}/${pkg.version}`
+      }
     })
 
     /**
