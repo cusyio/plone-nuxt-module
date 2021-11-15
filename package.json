@@ -47,6 +47,7 @@
     "husky": "latest",
     "jest": "latest",
     "nuxt-edge": "latest",
+    "prettier": "^2.4.1",
     "standard-version": "latest"
   },
   "publishConfig": {
