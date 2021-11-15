@@ -1,6 +1,5 @@
 <template>
   <component :is="wrapper">
-    <pre>Hello Default Component via hook</pre>
     <h1>{{ content.title }}</h1>
     <p v-if="content.description">
       {{ content.description }}
@@ -14,17 +13,17 @@ export default {
   props: {
     wrapper: {
       type: String,
-      default: 'div'
+      default: 'div',
     },
     content: {
       type: Object,
-      required: true
+      required: true,
     },
     level: {
       type: [Number, String],
-      default: 1
-    }
-  }
+      default: 1,
+    },
+  },
 }
 </script>
 

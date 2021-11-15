@@ -8,7 +8,9 @@ const logger = require('./logger')
  */
 function generate(moduleOptions) {
   this.nuxt.hook('generate:before', () => {
-    logger.info(`Getting all content from your Plone backend at ${moduleOptions.url}`)
+    logger.info(
+      `Getting all content from your Plone backend at ${moduleOptions.url}`
+    )
 
     /*
      * Initialize a new Plone JS client with the provided Plone backend URL.
@@ -17,8 +19,8 @@ function generate(moduleOptions) {
       enableCaching: true,
       enableRetry: true,
       headers: {
-        'User-Agent': `${pkg.name}/${pkg.version}`
-      }
+        'User-Agent': `${pkg.name}/${pkg.version}`,
+      },
     })
 
     /**
@@ -92,18 +94,20 @@ function generate(moduleOptions) {
        *
        * If it is a function, call it. Otherwise use the assigned value.
        */
-      const nuxtCustomRoutes = typeof nuxtCustomRoutesConfig === 'function'
-        ? await nuxtCustomRoutesConfig(moduleOptions)
-        : nuxtCustomRoutesConfig
+      const nuxtCustomRoutes =
+        typeof nuxtCustomRoutesConfig === 'function'
+          ? await nuxtCustomRoutesConfig(moduleOptions)
+          : nuxtCustomRoutesConfig
 
       /**
        * A list of custom sitemap routes defined in the nuxt configuration.
        *
        * If it is a function, call it. Otherwise use the assigned value.
        */
-      const nuxtCustomSitemapRoutes = typeof nuxtCustomSitemapRoutesConfig === 'function'
-        ? await nuxtCustomSitemapRoutesConfig(moduleOptions)
-        : nuxtCustomSitemapRoutesConfig
+      const nuxtCustomSitemapRoutes =
+        typeof nuxtCustomSitemapRoutesConfig === 'function'
+          ? await nuxtCustomSitemapRoutesConfig(moduleOptions)
+          : nuxtCustomSitemapRoutesConfig
 
       /**
        * Iterate over all configured languages and get the content items.
@@ -128,7 +132,7 @@ function generate(moduleOptions) {
           sort_on: 'path',
           sort_order: 'ascending',
           expand: 'breadcrumbs,translations,contentinfo',
-          fullobjects: '1'
+          fullobjects: '1',
         }
 
         /**
@@ -139,15 +143,20 @@ function generate(moduleOptions) {
          * when the backend might be unreachable or is mis-configured.
          */
         try {
-          ploneRoutes.push(...await ploneClient.fetchItems(lang, queryOptions, {}))
+          ploneRoutes.push(
+            ...(await ploneClient.fetchItems(lang, queryOptions, {}))
+          )
         } catch (e) {
-          if (!missingLanguagesAllowed.includes(lang) && missingLanguagesError) {
+          if (
+            !missingLanguagesAllowed.includes(lang) &&
+            missingLanguagesError
+          ) {
             logger.error(e)
             throw new Error(
               'Unable to fetch routes from Plone backend.\n\n' +
-              `Content for the language “${lang}” could not be fetched.\n\n` +
-              'Please check your Nuxt configuration and if the Plone backend ' +
-              `at “${moduleOptions.url}” is up and running.`
+                `Content for the language “${lang}” could not be fetched.\n\n` +
+                'Please check your Nuxt configuration and if the Plone backend ' +
+                `at “${moduleOptions.url}” is up and running.`
             )
           }
         }
@@ -161,63 +170,59 @@ function generate(moduleOptions) {
        *
        * We also filter any empty items.
        */
-      const ploneRoutesNuxt = await Promise.all(ploneRoutes.map(async (item) => {
-        let changefreq
-        let payload = item
+      const ploneRoutesNuxt = await Promise.all(
+        ploneRoutes.map(async (item) => {
+          let changefreq
+          let payload = item
 
-        /**
-         * Items with a query param are possible collections with dynamic items.
-         *
-         * Those items are not available unless the `include_items` option is activated
-         * in the search, which is not due to performance implications.
-         *
-         * So we query the content item and use the result as the payload which then
-         * includes the information for the query result items.
-         *
-         * Since the items can change more frequently, we change the sitemap change
-         * frequency for those items to `daily`.
-         */
-        if (item.is_folderish) {
-          payload = await ploneClient.fetchCollection(
-            item['@id'],
-            {
+          /**
+           * Items with a query param are possible collections with dynamic items.
+           *
+           * Those items are not available unless the `include_items` option is activated
+           * in the search, which is not due to performance implications.
+           *
+           * So we query the content item and use the result as the payload which then
+           * includes the information for the query result items.
+           *
+           * Since the items can change more frequently, we change the sitemap change
+           * frequency for those items to `daily`.
+           */
+          if (item.is_folderish) {
+            payload = await ploneClient.fetchCollection(item['@id'], {
               include_items: 1,
-              metadata_fields: ['_all']
-            }
-          )
-        } else if (item.query) {
-          payload = await ploneClient.fetchCollection(
-            item['@id'],
-            {
-              metadata_fields: ['_all']
-            }
-          )
-          changefreq = 'daily'
-        }
-
-        /**
-         * Same applies to default pages which contain a query param.
-         */
-        if (item?.default_page && item.default_page.query) {
-          const defaultPage = await ploneClient.fetchCollection(
-            item.default_page['@id'],
-            {
-              metadata_fields: ['_all']
-            }
-          )
-          changefreq = 'daily'
-          payload.default_page = defaultPage
-        }
-
-        return {
-          route: item['@id'],
-          payload,
-          sitemap: {
-            lastmod: item.modified,
-            ...(changefreq && { changefreq })
+              metadata_fields: ['_all'],
+            })
+          } else if (item.query) {
+            payload = await ploneClient.fetchCollection(item['@id'], {
+              metadata_fields: ['_all'],
+            })
+            changefreq = 'daily'
           }
-        }
-      }))
+
+          /**
+           * Same applies to default pages which contain a query param.
+           */
+          if (item?.default_page && item.default_page.query) {
+            const defaultPage = await ploneClient.fetchCollection(
+              item.default_page['@id'],
+              {
+                metadata_fields: ['_all'],
+              }
+            )
+            changefreq = 'daily'
+            payload.default_page = defaultPage
+          }
+
+          return {
+            route: item['@id'],
+            payload,
+            sitemap: {
+              lastmod: item.modified,
+              ...(changefreq && { changefreq }),
+            },
+          }
+        })
+      )
       ploneRoutesNuxt.filter(item => item)
 
       /**
@@ -230,26 +235,31 @@ function generate(moduleOptions) {
           `Add ${nuxtCustomRoutes.length} custom routes from your generate.routes config.`
         )
       }
-      const generated = [...new Set(ploneRoutesNuxt.concat(nuxtCustomRoutes))].filter(
-        item => item
-      )
+      const generated = [
+        ...new Set(ploneRoutesNuxt.concat(nuxtCustomRoutes)),
+      ].filter(item => item)
 
       if (updateSitemap) {
         const sitemapRoutes = generated.map((item) => {
           return {
             url: item.route,
-            ...item?.sitemap || {}
+            ...(item?.sitemap || {}),
           }
         })
-        this.options.sitemap.routes = [...sitemapRoutes, ...nuxtCustomSitemapRoutes]
+        this.options.sitemap.routes = [
+          ...sitemapRoutes,
+          ...nuxtCustomSitemapRoutes,
+        ]
       }
 
-      logger.success(`Collected ${generated.length} routes from your Plone backend`)
+      logger.success(
+        `Collected ${generated.length} routes from your Plone backend`
+      )
       logger.success('Plone routes done. Back to you, Nuxt!')
 
       /**
-     * Return the generated routes.
-     */
+       * Return the generated routes.
+       */
       return generated
     }
   })
@@ -258,7 +268,9 @@ function generate(moduleOptions) {
     /**
      * How many routes have been generated in total?
      */
-    logger.success(`Generated a total of ${generator.generatedRoutes.size} routes.`)
+    logger.success(
+      `Generated a total of ${generator.generatedRoutes.size} routes.`
+    )
 
     const crawledRoutes = this.crawledRoutes || new Map()
     /**
@@ -268,7 +280,10 @@ function generate(moduleOptions) {
       const routeOrigins = crawledRoutes.get(error.route)
       logger.error(`${error.error.statusCode} (${error.type}): ${error.route}`)
       if (routeOrigins) {
-        logger.info(`${error.route} appeared in the following origins:`, routeOrigins)
+        logger.info(
+          `${error.route} appeared in the following origins:`,
+          routeOrigins
+        )
       }
     }
   })
@@ -288,14 +303,17 @@ function generate(moduleOptions) {
    * }
    * ```
    */
-  this.nuxt.hook('generate:crawlerRouteAdded', (generator, { route, origin }) => {
-    if (!this.crawledRoutes) {
-      this.crawledRoutes = new Map()
+  this.nuxt.hook(
+    'generate:crawlerRouteAdded',
+    (generator, { route, origin }) => {
+      if (!this.crawledRoutes) {
+        this.crawledRoutes = new Map()
+      }
+      const routeOrigins = this.crawledRoutes.get(route) || []
+      routeOrigins.push(origin)
+      this.crawledRoutes.set(route, routeOrigins)
     }
-    const routeOrigins = this.crawledRoutes.get(route) || []
-    routeOrigins.push(origin)
-    this.crawledRoutes.set(route, routeOrigins)
-  })
+  )
 }
 
 module.exports = generate
