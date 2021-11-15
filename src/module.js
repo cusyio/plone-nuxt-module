@@ -29,7 +29,7 @@ const defaults = {
     full_view: 'PloneLayoutCollectionFull',
     listing_view: 'PloneLayoutCollectionListing',
     summary_view: 'PloneLayoutCollectionSummary',
-    tabular_view: 'PloneLayoutCollectionTabular'
+    tabular_view: 'PloneLayoutCollectionTabular',
   },
   layoutAliases: {
     atct_album_view: 'album_view',
@@ -37,7 +37,7 @@ const defaults = {
     folder_listing: 'listing_view',
     folder_full_view: 'full_view',
     folder_summary_view: 'summary_view',
-    folder_tabular_view: 'tabular_view'
+    folder_tabular_view: 'tabular_view',
   },
   layoutFallback: 'PloneLayoutBase',
   missingLanguagesAllowed: process.env.PLONE_MISSING_LANGUAGES_ALLOWED
@@ -46,14 +46,14 @@ const defaults = {
   missingLanguagesError: true,
   nuxtImage: false,
   updateSitemap: false,
-  url: process.env?.PLONE_URL
+  url: process.env?.PLONE_URL,
 }
 
 /**
  * Prepare the Plone module.
  * @param {object} moduleOptions Module configuration.
  */
-module.exports = function(moduleOptions) {
+module.exports = function (moduleOptions) {
   const { nuxt } = this
 
   /**
@@ -99,8 +99,8 @@ module.exports = function(moduleOptions) {
     options: {
       ...options,
       enableCaching: false,
-      isServer: false
-    }
+      isServer: false,
+    },
   })
 
   this.addPlugin({
@@ -110,8 +110,8 @@ module.exports = function(moduleOptions) {
     options: {
       ...options,
       enableCaching: !nuxt.options.dev,
-      isServer: true
-    }
+      isServer: true,
+    },
   })
 
   if (options.url && !options.disableGenerator) {
@@ -128,7 +128,7 @@ module.exports = function(moduleOptions) {
       // components (unless specified with a custom level).
       dirs.push({
         path: join(__dirname, 'components'),
-        level: 2
+        level: 2,
       })
     })
   }
