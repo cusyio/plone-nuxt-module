@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/cusyio/plone-nuxt-module/compare/v1.0.1...v1.1.0) (2021-11-15)
+
+
+### Features
+
+* :sparkles: add base layout component ([8ee5136](https://github.com/cusyio/plone-nuxt-module/commit/8ee513651f5a5a54d642126c37c3fc172bd3ff9d))
+* :sparkles: split plugin in client and server ([13de739](https://github.com/cusyio/plone-nuxt-module/commit/13de739a297602f4c6ac6e404c5866e68f147d18))
+* **module:** :truck: rename default plone view names ([6f30c30](https://github.com/cusyio/plone-nuxt-module/commit/6f30c302ed14403dc0b50ef2059f2b854ea2c17d))
+
 ### [1.0.1](https://github.com/cusyio/plone-nuxt-module/compare/v1.0.0...v1.0.1) (2021-11-02)
 
 
