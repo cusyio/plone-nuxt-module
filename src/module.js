@@ -1,3 +1,4 @@
+import pkg from '../package.json'
 const { join, resolve } = require('path')
 const defu = require('defu')
 const generate = require('./generator')
@@ -68,6 +69,9 @@ module.exports = function (moduleOptions) {
     return
   }
 
+  options.pkg_name = pkg.name
+  options.pkg_version = pkg.version
+
   /**
    * Update the public runtime config.
    */
@@ -78,15 +82,35 @@ module.exports = function (moduleOptions) {
   nuxt.options.publicRuntimeConfig.plone.nuxtImage = options.nuxtImage
   nuxt.options.publicRuntimeConfig.plone.updateSitemap = options.updateSitemap
 
+  // Transpile and alias runtime
+  const runtimeDir = resolve(__dirname, '../templates')
+  nuxt.options.alias['~plone'] = runtimeDir
+
   /**
    * Add the plone core plugin.
    *
    * It will be responsible for the communication with the Plone backend.
    */
   this.addPlugin({
-    src: resolve(__dirname, '../templates/plugins/plone.js'),
-    fileName: 'plone/plugins/plone.js',
-    options
+    src: resolve(runtimeDir, 'plugins/plone.js'),
+    fileName: 'plone/plone.client.js',
+    mode: 'client',
+    options: {
+      ...options,
+      enableCaching: false,
+      isServer: false
+    }
+  })
+
+  this.addPlugin({
+    src: resolve(runtimeDir, 'plugins/plone.js'),
+    fileName: 'plone/plone.server.js',
+    mode: 'server',
+    options: {
+      ...options,
+      enableCaching: !nuxt.options.dev,
+      isServer: true
+    }
   })
 
   if (options.url && !options.disableGenerator) {

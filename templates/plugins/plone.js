@@ -3,6 +3,8 @@ import PloneClient from '@cusy/plone-js'
 import { getQuery, joinURL, parseURL, withLeadingSlash, withoutTrailingSlash } from 'ufo'
 const DOMParser = require('universal-dom-parser')
 
+const options = <%= JSON.stringify(options) %>;
+
 /**
  * The Plone API client.
  */
@@ -13,18 +15,22 @@ class PloneAPI extends Hookable {
     ctx.$config = ctx.$config || {} // fallback for Nuxt < 2.13
     this.$config = ctx.$config.plone || {}
 
-    let url = this.$config.url || '<%= options.url %>'
+    let url = this.$config.url || options.url
     if (process.server && ctx.req && url.startsWith('/')) {
       url = joinURL(reqURL(ctx.req), url)
     }
     this.baseURL = withoutTrailingSlash(url)
     this.client = new PloneClient(url, {
-      enableCaching: process.server,
+      enableCaching: options.enableCaching,
       enableRetry: true,
+      headers: {
+        ...(options.isServer && {
+          'User-Agent': `${options.pkg_name}/${options.pkg_version}`
+        })
+      }
     })
-    this.layouts =
-      JSON.parse(`<%= JSON.stringify(options.layouts) %>`);
-    this.layoutFallback = '<%= options.layoutFallback %>'
+    this.layouts = options.layouts
+    this.layoutFallback = options.layoutFallback
   }
 
   /**
