@@ -53,7 +53,7 @@ const defaults = {
  * Prepare the Plone module.
  * @param {object} moduleOptions Module configuration.
  */
-module.exports = function (moduleOptions) {
+module.exports = function(moduleOptions) {
   const { nuxt } = this
 
   /**
@@ -76,7 +76,8 @@ module.exports = function (moduleOptions) {
    * Update the public runtime config.
    */
   nuxt.options.publicRuntimeConfig = nuxt.options.publicRuntimeConfig || {}
-  nuxt.options.publicRuntimeConfig.plone = nuxt.options.publicRuntimeConfig.plone || {}
+  nuxt.options.publicRuntimeConfig.plone =
+    nuxt.options.publicRuntimeConfig.plone || {}
   nuxt.options.publicRuntimeConfig.plone.url = options.url
   nuxt.options.publicRuntimeConfig.plone.languages = options.languages
   nuxt.options.publicRuntimeConfig.plone.nuxtImage = options.nuxtImage

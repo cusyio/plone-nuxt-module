@@ -1,6 +1,12 @@
 import Hookable from 'hookable'
 import PloneClient from '@cusy/plone-js'
-import { getQuery, joinURL, parseURL, withLeadingSlash, withoutTrailingSlash } from 'ufo'
+import {
+  getQuery,
+  joinURL,
+  parseURL,
+  withLeadingSlash,
+  withoutTrailingSlash
+} from 'ufo'
 const DOMParser = require('universal-dom-parser')
 
 const options = <%= JSON.stringify(options) %>;
@@ -19,6 +25,7 @@ class PloneAPI extends Hookable {
     if (process.server && ctx.req && url.startsWith('/')) {
       url = joinURL(reqURL(ctx.req), url)
     }
+
     this.baseURL = withoutTrailingSlash(url)
     this.client = new PloneClient(url, {
       enableCaching: options.enableCaching,
@@ -112,14 +119,14 @@ class PloneAPI extends Hookable {
     let results
     try {
       results = await this.client.fetchItems('/', searchOptions)
-    } catch { }
+    } catch {}
     if (results?.error) {
       return {
         error: true
       }
     }
     return {
-      items: results,
+      items: results
     }
   }
 
@@ -137,7 +144,7 @@ class PloneAPI extends Hookable {
   async getNavigation(path = '', depth = 2) {
     const errorResult = {
       error: true,
-      items: [],
+      items: []
     }
     const searchOptions = {
       'expand.navigation.depth': depth
@@ -174,12 +181,10 @@ class PloneAPI extends Hookable {
     /**
      * Add a path property with the relative path from the root.
      */
-    const itemsWithLocalPath = results.map(result => (
-      {
-        ...result,
-        path: this.getLocalPath(result['@id']),
-      }
-    ))
+    const itemsWithLocalPath = results.map((result) => ({
+      ...result,
+      path: this.getLocalPath(result['@id'])
+    }))
 
     // This is the valid response from the Plone REST-API.
     return {
@@ -208,7 +213,7 @@ class PloneAPI extends Hookable {
    */
   getLocalPath(url) {
     const path = url.replace(this.baseURL, '') || '/'
-    return withLeadingSlash(path);
+    return withLeadingSlash(path)
   }
 
   /**
@@ -283,22 +288,19 @@ class PloneAPI extends Hookable {
 }
 
 function absoluteURL(base, relative) {
-  const stack = base.split("/")
-  const parts = relative.split("/");
-  stack.pop(); // remove current file name (or empty string)
+  const stack = base.split('/')
+  const parts = relative.split('/')
+  stack.pop() // remove current file name (or empty string)
   // (omit if "base" is the current folder without trailing slash)
   for (let i = 0; i < parts.length; i++) {
-    if (parts[i] === ".")
-      continue;
-    if (parts[i] === "..")
-      stack.pop();
-    else
-      stack.push(parts[i]);
+    if (parts[i] === '.') continue
+    if (parts[i] === '..') stack.pop()
+    else stack.push(parts[i])
   }
-  return stack.join("/");
+  return stack.join('/')
 }
 
-export default async function (ctx, inject) {
+export default async function(ctx, inject) {
   const plone = new PloneAPI(ctx)
 
   inject('plone', plone)
