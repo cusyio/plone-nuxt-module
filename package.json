@@ -20,6 +20,7 @@
   "scripts": {
     "dev": "nuxt example",
     "docs": "nuxt docs",
+    "format": "prettier-eslint --write \"src/**/*.{js,vue}\"",
     "generate:dev": "nuxt generate example",
     "generate:docs": "nuxt generate docs",
     "lint": "eslint --ext .js,.vue .",
@@ -48,6 +49,7 @@
     "jest": "latest",
     "nuxt-edge": "latest",
     "prettier": "^2.4.1",
+    "prettier-eslint-cli": "^5.0.1",
     "standard-version": "latest"
   },
   "publishConfig": {
