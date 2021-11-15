@@ -1,4 +1,4 @@
-const { resolve } = require('path')
+const { join, resolve } = require('path')
 const defu = require('defu')
 const generate = require('./generator')
 const logger = require('./logger')
@@ -91,6 +91,21 @@ module.exports = function (moduleOptions) {
 
   if (options.url && !options.disableGenerator) {
     generate.call(this, options)
+  }
+
+  // Add default components if components option is enabled.
+  if (nuxt.options.components) {
+    this.nuxt.hook('components:dirs', (dirs) => {
+      // Add ./components dir to the list of available components.
+      // With a level of 2 this has the lowest priority (0 is default with highest priority).
+      // Components like @cusy/plone-components-vue define a level of 1.
+      // This way local project components will always be able to overwrite module
+      // components (unless specified with a custom level).
+      dirs.push({
+        path: join(__dirname, 'components'),
+        level: 2
+      })
+    })
   }
 }
 
