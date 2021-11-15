@@ -10,6 +10,6 @@
 export default {
   async asyncData({ $plone }) {
     return { sitemap: await $plone.getSitemap() }
-  }
+  },
 }
 </script>
