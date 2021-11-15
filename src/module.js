@@ -13,22 +13,22 @@ const defaults = {
     : ['/'],
   layouts: {
     // Content layouts
-    document_view: 'PloneDocumentView',
-    EasyFormView: 'PloneEasyFormView',
-    event_view: 'PloneEventView',
-    file_view: 'PloneFileView',
-    image_view: 'PloneImageView',
-    image_view_fullscreen: 'PloneImageViewFullscreen',
-    'language-switcher': 'PloneLanguageSwitcher',
-    link_redirect_view: 'PloneLinkRedirectView',
-    newsitem_view: 'PloneNewsItemView',
+    document_view: 'PloneLayoutDocument',
+    EasyFormView: 'PloneLayoutEasyForm',
+    event_view: 'PloneLayoutEvent',
+    file_view: 'PloneLayoutFile',
+    image_view: 'PloneLayoutImage',
+    image_view_fullscreen: 'PloneLayoutImageFullscreen',
+    'language-switcher': 'PloneLayoutLanguageSwitcher',
+    link_redirect_view: 'PloneLayoutLinkRedirect',
+    newsitem_view: 'PloneLayoutNewsItem',
     // Collection layouts
-    album_view: 'PloneAlbumView',
-    event_listing: 'PloneEventListingView',
-    full_view: 'PloneFullView',
-    listing_view: 'PloneListingView',
-    summary_view: 'PloneSummaryView',
-    tabular_view: 'PloneTabularView'
+    album_view: 'PloneLayoutCollectionAlbum',
+    event_listing: 'PloneLayoutCollectionEvents',
+    full_view: 'PloneLayoutCollectionFull',
+    listing_view: 'PloneLayoutCollectionListing',
+    summary_view: 'PloneLayoutCollectionSummary',
+    tabular_view: 'PloneLayoutCollectionTabular'
   },
   layoutAliases: {
     atct_album_view: 'album_view',
@@ -38,7 +38,7 @@ const defaults = {
     folder_summary_view: 'summary_view',
     folder_tabular_view: 'tabular_view'
   },
-  layoutFallback: 'PloneBaseView',
+  layoutFallback: 'PloneLayoutBase',
   missingLanguagesAllowed: process.env.PLONE_MISSING_LANGUAGES_ALLOWED
     ? process.env.PLONE_MISSING_LANGUAGES_ALLOWED.split(',')
     : [],
